@@ -1,0 +1,19 @@
+### useful commands
+
+- kubectl apply -f deployment.yml      
+- kubectl logs `podname`
+<!-- get shell for pod -->
+- kubectl exec -it image-id -- sh 
+
+- minikube image ls
+- minikube image load `image-name`
+
+- docker build -t `image-name` .
+- docker run -dp 127.0.0.1:3000:3000 `image-name`
+
+- uvicorn main:app --reload --host 0.0.0.0 --port 3000
+
+- minikube start --mount --mount-string="ABSOLUTE_PATH_TO_CONF_FILE_ON_HOST:/syslog-conf"
+- minikube start --mount --mount-string="/Users/jaschasteudler/Documents/university/Module/Current/Bachelorarbeit/Code/Syslog/config:/syslog-conf"
+
+- chmod +x <filename>

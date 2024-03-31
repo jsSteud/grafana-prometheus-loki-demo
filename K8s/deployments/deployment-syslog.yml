@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: syslog-ng
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: syslog-ng
+  template:
+    metadata:
+      labels:
+        app: syslog-ng
+    spec:
+      containers:
+      - name: syslog-ng
+        image: lscr.io/linuxserver/syslog-ng:latest
+        env:
+          - name: PUID
+            value: "1000"
+          - name: PGID
+            value: "1000"
+          - name: TZ
+            value: "Etc/UTC"
+        ports:
+          - containerPort: 5514
+            protocol: UDP
+          - containerPort: 6601
+            protocol: TCP
+          - containerPort: 6514
+            protocol: TCP
+        volumeMounts:
+          - mountPath: /config
+            name: syslog-ng-config
+      volumes:
+        - name: syslog-ng-config
+          hostPath:
+            path: /syslog-conf
+            type: Directory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: syslog-ng-service
+spec:
+  selector:
+    app: syslog-ng
+  ports:
+  - protocol: UDP
+    port: 5514
+    targetPort: 5514
